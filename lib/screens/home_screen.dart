@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
-
+import 'recipe_card.dart';
 import 'package:flutter/material.dart';
 import 'package:register/screens/hospitaldetailes_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:register/screens/recipe_card.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String screenRoute = 'home_screen';
@@ -9,415 +13,60 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
+var jsonList;
 class _HomeScreenState extends State<HomeScreen> {
+ Future fetchPhotos() async {
+  var res = await Dio().get("http://192.168.43.8:8000/api/hospitals");
+  if (res.statusCode == 200) {
+    setState(() {
+      jsonList = res.data["cont"] as List;
+    });
+  } else {
+    print(res.statusCode);
+  }
+
+// var res = await http.get(Uri.parse("http://192.168.43.8:8000/api/hospitals"));
+//   if (res.statusCode == 200) {
+//     var obj =jsonDecode(res.body);
+//     print(obj[1]['hospital_name']);
+// return obj; 
+// }
+}
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchPhotos();
+  }
   @override
-  Widget build(BuildContext context) =>  DefaultTabController(length: 3, 
+  Widget build(BuildContext context) =>  DefaultTabController(length: 4, 
   child: Padding(
     padding: const EdgeInsets.all(0.0),
     child: Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white, bottom:       
-              TabBar(tabs: [
-        Column(children: [Container(child: CircleAvatar(radius: 30,backgroundImage: AssetImage("images/kh.png"), child: FlatButton(onPressed: (){}, child: Text(""),)),),SizedBox(height: 5,), Container(child: Text("الخرطوم", style: TextStyle(color: Colors.black),),)],),
-        Column(children: [Container(child: CircleAvatar(radius: 30,backgroundImage: AssetImage("images/bh.png"), child: FlatButton(onPressed: (){}, child: Text(""),)),),SizedBox(height: 5,), Container(child: Text("بحري", style: TextStyle(color: Colors.black),),)],),
-        Column(children: [Container(child: CircleAvatar(radius: 30,backgroundImage: AssetImage("images/om.png"), child: FlatButton(onPressed: (){}, child: Text(""),)),),SizedBox(height: 5,), Container(child: Text("امدرمان", style: TextStyle(color: Colors.black),),)],)
-      ],),),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
-        child: TabBarView(children: [
-            Column(
-              children: [
-                FlatButton(              onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  Hospitaldetailes_screen  ()));// signup
-                }, child: 
-                Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('رويال كير'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('الفيصل'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('فضيل'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('المعلم'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-              ],
-            ),
-            Column(
-              children: [
-                FlatButton(              onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  Hospitaldetailes_screen  ()));// signup
-                }, child: 
-                Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('البراحة'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('شرق النيل'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('حاج الصافي'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('احمد قاسم'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-              ],
-            ),
-            Column(
-              children: [
-                FlatButton(              onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  Hospitaldetailes_screen  ()));// signup
-                }, child: 
-                Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('امدرمان'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('السلاح الطبي'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('اسيا'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-                FlatButton(onPressed: (){print("object");}, child: 
-                Card(  
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    child: Column(  
-                      mainAxisSize: MainAxisSize.min,  
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[  
-                        const ListTile(  
-                          minVerticalPadding: 25,
-                          leading: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text('علياء'),
-                          ),
-                          title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                          trailing: Image(image: AssetImage("images/rc.png")),  
-                        ),  
-                      ],  
-                    ),  
-                  )
-                  ),
-                  SizedBox(height: 20,),
-              ],
-            )
-        ],),
+      body: TextButton(
+        onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=> Hospitaldetailes_screen())); },
+        child: GridView.builder(
+          itemCount: jsonList == null?0:jsonList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1,
+            childAspectRatio: 3/2,
+            crossAxisSpacing: 1,
+            mainAxisSpacing: 10,
+            ), 
+          itemBuilder: (ctx, index){
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
+              child: RecipeCard(
+                title: jsonList[index]['hospital_name'],
+                rating: jsonList[index]['hospital_address'],
+                cookTime: jsonList[index]['phone'],
+                thumbnailUrl: 'images/kh.png',
+              ),
+            );
+          },
+          ),
       ),
-    ),
-  )
-  );
+  )));
+      
+
 }
-/*Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(radius: 50,backgroundImage: AssetImage("images/kh.png"), child: FlatButton(onPressed: (){}, child: Text(""),)),
-                SizedBox(width: 20,),
-                CircleAvatar(radius: 50,backgroundImage: AssetImage("images/bh.png"), child: FlatButton(onPressed: (){}, child: Text(""),)),
-                SizedBox(width: 20,),
-                CircleAvatar(radius: 50,backgroundImage: AssetImage("images/om.png"), child: FlatButton(onPressed: (){}, child: Text(""),)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  FlatButton(onPressed: (){}, child: Text("الخرطوم")),
-                  SizedBox(width: 35,),
-                  FlatButton(onPressed: (){}, child: Text("بحري")),
-                  SizedBox(width: 35,),
-                  FlatButton(onPressed: (){}, child: Text("امدرمان"))
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              FlatButton(              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>  Hospitaldetailes_screen  ()));// signup
-              }, child: 
-              Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  child: Column(  
-                    mainAxisSize: MainAxisSize.min,  
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: <Widget>[  
-                      const ListTile(  
-                        minVerticalPadding: 25,
-                        leading: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text('رويال كير'),
-                        ),
-                        title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                        trailing: Image(image: AssetImage("images/rc.png")),  
-                      ),  
-                    ],  
-                  ),  
-                )
-                ),
-                SizedBox(height: 20,),
-              FlatButton(onPressed: (){print("object");}, child: 
-              Card(  
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  child: Column(  
-                    mainAxisSize: MainAxisSize.min,  
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: <Widget>[  
-                      const ListTile(  
-                        minVerticalPadding: 25,
-                        leading: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text('رويال كير'),
-                        ),
-                        title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                        trailing: Image(image: AssetImage("images/rc.png")),  
-                      ),  
-                    ],  
-                  ),  
-                )
-                ),
-                SizedBox(height: 20,),
-              FlatButton(onPressed: (){print("object");}, child: 
-              Card(  
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  child: Column(  
-                    mainAxisSize: MainAxisSize.min,  
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: <Widget>[  
-                      const ListTile(  
-                        minVerticalPadding: 25,
-                        leading: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text('رويال كير'),
-                        ),
-                        title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                        trailing: Image(image: AssetImage("images/rc.png")),  
-                      ),  
-                    ],  
-                  ),  
-                )
-                ),
-                SizedBox(height: 20,),
-              FlatButton(onPressed: (){print("object");}, child: 
-              Card(  
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  child: Column(  
-                    mainAxisSize: MainAxisSize.min,  
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: <Widget>[  
-                      const ListTile(  
-                        minVerticalPadding: 25,
-                        leading: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text('رويال كير'),
-                        ),
-                        title: Align(alignment: Alignment.center, child: Text("0992603256")),
-                        trailing: Image(image: AssetImage("images/rc.png")),  
-                      ),  
-                    ],  
-                  ),  
-                )
-                ),
-                SizedBox(height: 20,),
-            ],
-          )
-        ],
-      ), */

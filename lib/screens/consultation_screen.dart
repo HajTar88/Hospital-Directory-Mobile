@@ -1,6 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart';
 final  List<String> genderItems = [
   'الاربعاء 10:30 - 14:30',
   'الاحد 10:30 - 14:30',
@@ -11,6 +11,23 @@ class ConsultationScreen extends StatelessWidget {
   const ConsultationScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    TextEditingController consultationController = TextEditingController();
+    void cons(String counseling_text) async {
+      try {
+        Response response = await post(Uri.parse('http://192.168.43.8:8000/api/consultations'),
+        body: {
+          'counseling_text' : counseling_text,
+        }
+        );
+        if (response.statusCode == 200) {
+          print("Send Successfully");
+        } else {
+          print("Failed");
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+    }
     return SafeArea(child: Scaffold(
                       appBar: AppBar(
           leading: IconButton(icon: const Icon(Icons.arrow_back),
@@ -29,6 +46,7 @@ class ConsultationScreen extends StatelessWidget {
            Container(
           margin: EdgeInsets.only(left: 20, right: 20, top: 80 ),
           child: TextField(
+            controller: consultationController,
           decoration: InputDecoration(
           hintText: 'الاستشارة',
           border: OutlineInputBorder(
@@ -56,7 +74,11 @@ class ConsultationScreen extends StatelessWidget {
               color: Color(0xffEEEEEE)
             )]
             ),
-            child: TextButton(onPressed: () {},
+            child: TextButton(onPressed: () {
+              cons(consultationController.text.toString());
+               Navigator.pop(context);
+
+            },
             child: Text("ارسال",
             style: TextStyle(color: Colors.white,
             fontSize: 20,
